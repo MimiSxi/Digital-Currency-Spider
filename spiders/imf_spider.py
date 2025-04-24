@@ -84,9 +84,17 @@ class ImfSpider(feapder.Spider):
 
 
 if __name__ == "__main__":
+    config_file = "./config.ini"
+    conf = tools.configparser.ConfigParser()
+    conf.read(config_file)
+    search = conf["search"]
+    
+    print(search["start_date"])
+    print(search["end_date"])
     search_index = 0
-    get_num = 200
-    search_list = ["Digital%20Currencies"]
+    get_num = int(search["num"])
+    
+    search_list = search["key_word"].split(",")
     search_url = "https://www.imf.org/coveo/rest/search/v2?sitecoreItemUri=sitecore%3A%2F%2Fweb%2F%7B69D1D09E-EFFF-402D-AD91-34C2A2DAE66A%7D%3Flang%3Den%26amp%3Bver%3D8&siteName=imf"
     # todo)) 参数化
     search_params = {
@@ -101,4 +109,4 @@ if __name__ == "__main__":
     }
     urls_init = []  # 初始文章信息
     urls_operated = []  # 去重后文章信息
-    ImfSpider(redis_key="IMF").start()
+    # ImfSpider(redis_key="IMF").start()
